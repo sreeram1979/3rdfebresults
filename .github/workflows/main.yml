@@ -37,8 +37,9 @@ jobs:
         run: |
           mkdir -p json
           for file in data/*.csv; do
+            filename=$(basename "$file" .csv)
             echo "Processing: $file"
-            python -c "import pandas as pd; df = pd.read_csv('$file'); df.to_json('json/$(basename ${file%.csv}).json', orient='records')"
+            python -c "import pandas as pd; df = pd.read_csv('$file'); df.to_json('json/${filename}.json', orient='records')"
           done
 
       - name: Debug: Check Files After Processing
