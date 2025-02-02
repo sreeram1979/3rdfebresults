@@ -22,23 +22,14 @@ jobs:
         run: |
           pip install pandas
 
-      - name: Debug: List Files Before Processing
-        run: |
-          echo "Listing files before processing..."
-          ls -R
-
       - name: Convert CSV to JSON
         run: |
           mkdir -p json
           for file in data/*.csv; do
-            echo "Processing: $file"
             python -c "import pandas as pd; df = pd.read_csv('$file'); df.to_json('json/$(basename ${file%.csv}).json', orient='records')"
           done
-
-      - name: Debug: List Files After Processing
-        run: |
-          echo "Listing files after processing..."
-          ls -R json/
+          echo "Generated JSON files:"
+          ls -lah json/  # Print JSON files for debugging
 
       - name: Commit and Push JSON Files
         run: |
